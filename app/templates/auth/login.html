@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BEPO PANEL | Login</title>
+    <link rel="icon" type="image/png" href="/static/img/logo.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .limiter {
+            width: 100%;
+            max-width: 450px;
+        }
+        .container-login {
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        .notice-box {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeeba 100%);
+            padding: 20px;
+            border-bottom: 1px solid #ffc107;
+        }
+        .notice-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #856404;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .notice-text {
+            font-size: 13px;
+            color: #856404;
+            line-height: 1.6;
+        }
+        .notice-email {
+            color: #0056b3;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .notice-email:hover {
+            text-decoration: underline;
+        }
+        .wrap-login {
+            padding: 40px;
+        }
+        .logo-section {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .ghost-logo {
+            font-size: 42px;
+            font-weight: 900;
+            letter-spacing: 4px;
+            color: #1a1a2e;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        .ghost-subtitle {
+            font-size: 14px;
+            letter-spacing: 8px;
+            color: #667eea;
+            font-weight: 700;
+        }
+        .login-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        .wrap-input {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .input {
+            width: 100%;
+            padding: 14px 18px 14px 45px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+        .input:focus {
+            border-color: #667eea;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        .symbol-input {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+        .captcha-box {
+            background: #f8f9fa;
+            padding: 18px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            border: 1px solid #e9ecef;
+        }
+        .captcha-question {
+            font-size: 15px;
+            color: #495057;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+        .captcha-input {
+            width: 100px;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            text-align: center;
+        }
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(26, 26, 46, 0.4);
+        }
+        .alert {
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-size: 13px;
+        }
+        .alert-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        @media (max-width: 480px) {
+            .wrap-login {
+                padding: 30px 20px;
+            }
+            .ghost-logo {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="limiter">
+        <div class="container-login">
+            <div class="notice-box">
+                <div class="notice-title">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                    </svg>
+                    Important Notice
+                </div>
+                <div class="notice-text">
+                    All agents are requested to contact us via Microsoft Teams using the following email or click on it<br>
+                    <a href="https://teams.live.com/l/invite/FEAdSz7vb4Qg3PlfQc?v=g1" class="notice-email" target="_blank">
+                        smshaneenstar@outlook.com
+                    </a>
+                    <br>Due to a temporary issue with WhatsApp. Thank you for your understanding
+                </div>
+            </div>
+
+            <div class="wrap-login">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <div class="logo-section">
+                    <div class="ghost-logo">GHOST</div>
+                    <div class="ghost-subtitle">SMS</div>
+                </div>
+
+                <h1 class="login-title">Account Login</h1>
+
+                <form method="POST" action="{{ url_for('auth.login') }}">
+                    <div class="wrap-input">
+                        <span class="symbol-input">
+                            <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647a.5.5 0 0 1-.708 0L7 9.207l-.646.647A.5.5 0 0 1 0 9.465V2a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8z"/>
+                            </svg>
+                        </span>
+                        <input class="input" type="text" name="username" placeholder="Username" required autofocus>
+                    </div>
+
+                    <div class="wrap-input">
+                        <span class="symbol-input">
+                            <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
+                            </svg>
+                        </span>
+                        <input class="input" type="password" name="password" placeholder="Password" required>
+                    </div>
+
+                    <div class="captcha-box">
+                        <div class="captcha-question">
+                            What is {{ session.get('captcha_num1', 0) }} + {{ session.get('captcha_num2', 0) }} = ?
+                        </div>
+                        <input type="number" name="capt" class="captcha-input" placeholder="Answer" required>
+                    </div>
+
+                    <button type="submit" class="login-btn">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

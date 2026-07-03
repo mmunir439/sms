@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}إنشاء أكواد جديدة - Admin Panel{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="breadcrumb">
+            <h4><i class="fa fa-plus-circle"></i> إنشاء أكواد جديدة</h4>
+        </div>
+    </div>
+</div>
+
+<div class="widget-block">
+    <div class="widget-head">
+        <h5><i class="fa fa-key"></i> إنشاء أكواد جديدة</h5>
+    </div>
+    <div class="widget-content">
+        <form method="POST">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>الرينج *</label>
+                        <select name="ring_id" class="form-control" required>
+                            <option value="">-- اختر الرينج --</option>
+                            {% for ring in rings %}
+                            <option value="{{ ring.id }}" data-price="{{ ring.price }}" data-currency="{{ ring.currency }}">
+                                {{ ring.name }} - {{ ring.price }} {{ ring.currency }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <small class="text-muted">كل كود سيتم إنشاؤه بسعر الرينج المحدد</small>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>عدد الأكواد *</label>
+                        <input type="number" name="count" class="form-control" value="1" min="1" max="1000" required>
+                        <small class="text-muted">اختر عدد الأكواد المراد إنشاؤها (1-1000)</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert alert-info">
+                <i class="fa fa-info-circle"></i>
+                <strong>ملاحظة:</strong> كل كود يتكون من:
+                <ul style="margin: 10px 0 0 20px;">
+                    <li>كود عشوائي (8 أحرف/أرقام) - مثال: <code>AB12CD34</code></li>
+                    <li>رقم عشوائي (4 أرقام) - مثال: <code>1234</code></li>
+                </ul>
+                <p style="margin-top: 10px;">
+                    <strong id="price-preview">اختر الرينج لعرض السعر الإجمالي</strong>
+                </p>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-success btn-lg">
+                    <i class="fa fa-plus-circle"></i> إنشاء الأكواد
+                </button>
+                <a href="{{ url_for('rings.codes_list') }}" class="btn btn-default">
+                    <i class="fa fa-arrow-right"></i> إلغاء
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if rings|length == 0 %}
+<div class="alert alert-warning">
+    <i class="fa fa-exclamation-triangle"></i>
+    <strong>تنبيه:</strong> لا توجد رينج نشطة.
+    <a href="{{ url_for('rings.create_ring') }}">إنشاء رينج جديد</a>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.querySelector('select[name="ring_id"]').addEventListener('change', function() {
+    const selected = this.options[this.selectedIndex];
+    const price = parseFloat(selected.dataset.price) || 0;
+    const currency = selected.dataset.currency || 'USD';
+    const count = parseInt(document.querySelector('input[name="count"]').value) || 1;
+    const total = price * count;
+
+    document.getElementById('price-preview').innerHTML =
+        `السعر للوحدة: <strong>${price} ${currency}</strong><br>` +
+        `عدد الأكواد: <strong>${count}</strong><br>` +
+        `الإجمالي: <strong>${total} ${currency}</strong>`;
+});
+
+document.querySelector('input[name="count"]').addEventListener('input', function() {
+    document.querySelector('select[name="ring_id"]').dispatchEvent(new Event('change'));
+});
+</script>
+{% endblock %}

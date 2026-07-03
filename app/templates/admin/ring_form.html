@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block title %}{{ 'تعديل الرينج' if ring else 'إضافة رينج جديد' }} - Admin Panel{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="breadcrumb">
+            <h4>
+                <i class="fa fa-circle"></i>
+                {{ 'تعديل الرينج' if ring else 'إضافة رينج جديد' }}
+            </h4>
+        </div>
+    </div>
+</div>
+
+<div class="widget-block">
+    <div class="widget-head">
+        <h5>
+            <i class="fa {{ 'fa-edit' if ring else 'fa-plus' }}"></i>
+            {{ 'تعديل الرينج' if ring else 'إضافة رينج جديد' }}
+        </h5>
+    </div>
+    <div class="widget-content">
+        <form method="POST">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>اسم الرينج *</label>
+                        <input type="text" name="name" class="form-control" required
+                               value="{{ ring.name if ring else '' }}"
+                               placeholder="مثال: الرينج الذهبي">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>السعر ({{ ring.currency if ring else 'USD' }}) *</label>
+                        <input type="number" name="price" class="form-control" step="0.01" required
+                               value="{{ ring.price if ring else '0' }}"
+                               placeholder="0.00">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>العملة</label>
+                        <select name="currency" class="form-control">
+                            <option value="USD" {{ 'selected' if ring and ring.currency == 'USD' else '' }}>USD - دولار أمريكي</option>
+                            <option value="EUR" {{ 'selected' if ring and ring.currency == 'EUR' else '' }}>EUR - يورو</option>
+                            <option value="GBP" {{ 'selected' if ring and ring.currency == 'GBP' else '' }}>GBP - جنيه إسترليني</option>
+                            <option value="EGP" {{ 'selected' if ring and ring.currency == 'EGP' else '' }}>EGP - جنيه مصري</option>
+                            <option value="SAR" {{ 'selected' if ring and ring.currency == 'SAR' else '' }}>SAR - ريال سعودي</option>
+                            <option value="AED" {{ 'selected' if ring and ring.currency == 'AED' else '' }}>AED - درهم</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>ترتيب العرض</label>
+                        <input type="number" name="sort_order" class="form-control"
+                               value="{{ ring.sort_order if ring else '0' }}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>اللون</label>
+                        <div class="input-group">
+                            <input type="color" name="color" class="form-control"
+                                   value="{{ ring.color if ring else '#00d4ff' }}"
+                                   style="height: 45px; width: 80px;">
+                            <input type="text" class="form-control" id="color-text"
+                                   value="{{ ring.color if ring else '#00d4ff' }}"
+                                   style="margin-right: -5px;">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>الأيقونة</label>
+                        <select name="icon" class="form-control">
+                            <option value="fa-circle" {{ 'selected' if ring and ring.icon == 'fa-circle' else '' }}>● دائري</option>
+                            <option value="fa-star" {{ 'selected' if ring and ring.icon == 'fa-star' else '' }}>★ نجمة</option>
+                            <option value="fa-diamond" {{ 'selected' if ring and ring.icon == 'fa-diamond' else '' }}>◆ معين</option>
+                            <option value="fa-square" {{ 'selected' if ring and ring.icon == 'fa-square' else '' }}>■ مربع</option>
+                            <option value="fa-crown" {{ 'selected' if ring and ring.icon == 'fa-crown' else '' }}>♔ تاج</option>
+                            <option value="fa-gem" {{ 'selected' if ring and ring.icon == 'fa-gem' else '' }}>💎 جوهرة</option>
+                            <option value="fa-fire" {{ 'selected' if ring and ring.icon == 'fa-fire' else '' }}>🔥 نار</option>
+                            <option value="fa-bolt" {{ 'selected' if ring and ring.icon == 'fa-bolt' else '' }}>⚡ برق</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>رابط مخصص (اختياري)</label>
+                <input type="url" name="custom_link" class="form-control"
+                       value="{{ ring.custom_link if ring else '' }}"
+                       placeholder="https://example.com/ring-link">
+                <small class="text-muted">الرابط الذي سيتم توجيه المستخدم إليه عند التحقق من الكود</small>
+            </div>
+
+            <div class="form-group">
+                <label>الوصف</label>
+                <textarea name="description" class="form-control" rows="3"
+                          placeholder="وصف الرينج...">{{ ring.description if ring else '' }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label>المميزات</label>
+                <textarea name="features" class="form-control" rows="3"
+                          placeholder="المميزات (سطر لكل ميزة)...">{{ ring.features if ring else '' }}</textarea>
+                <small class="text-muted">اكتب كل ميزة في سطر جديد</small>
+            </div>
+
+            {% if ring %}
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" name="is_active" value="1" {{ 'checked' if ring.is_active else '' }}>
+                    نشط
+                </label>
+            </div>
+            {% endif %}
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-save"></i> حفظ
+                </button>
+                <a href="{{ url_for('rings.rings_list') }}" class="btn btn-default">
+                    <i class="fa fa-arrow-right"></i> إلغاء
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.querySelector('input[name="color"]').addEventListener('input', function(e) {
+    document.getElementById('color-text').value = e.target.value;
+});
+document.getElementById('color-text').addEventListener('input', function(e) {
+    document.querySelector('input[name="color"]').value = e.target.value;
+});
+</script>
+{% endblock %}

@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+
+{% block title %}إدارة الرينج - Admin Panel{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="breadcrumb">
+            <h4><i class="fa fa-circle"></i> إدارة الرينج - Rings Management</h4>
+        </div>
+    </div>
+</div>
+
+<!-- الإحصائيات -->
+<div class="row" style="margin-bottom: 20px;">
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon bg-primary"><i class="fa fa-circle"></i></div>
+            <div>
+                <h3>{{ stats.total_rings }}</h3>
+                <p>إجمالي الرينج</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon bg-success"><i class="fa fa-check-circle"></i></div>
+            <div>
+                <h3>{{ stats.active_rings }}</h3>
+                <p>الرينج النشط</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon bg-info"><i class="fa fa-key"></i></div>
+            <div>
+                <h3>{{ stats.total_codes }}</h3>
+                <p>إجمالي الأكواد</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon bg-warning"><i class="fa fa-check"></i></div>
+            <div>
+                <h3>{{ stats.used_codes }}</h3>
+                <p>الأكواد المستخدمة</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- الأزرار -->
+<div class="row" style="margin-bottom: 20px;">
+    <div class="col-md-12">
+        <a href="{{ url_for('rings.create_ring') }}" class="btn btn-primary">
+            <i class="fa fa-plus"></i> إضافة رينج جديد
+        </a>
+        <a href="{{ url_for('rings.codes_list') }}" class="btn btn-info">
+            <i class="fa fa-key"></i> إدارة الأكواد
+        </a>
+        <a href="{{ url_for('rings.create_codes') }}" class="btn btn-success">
+            <i class="fa fa-plus-circle"></i> إنشاء أكواد
+        </a>
+    </div>
+</div>
+
+<!-- البحث -->
+<div class="widget-block" style="margin-bottom: 20px;">
+    <form method="GET" class="form-inline">
+        <div class="form-group" style="margin-left: 10px;">
+            <input type="text" name="search" class="form-control" placeholder="بحث..." value="{{ request.args.get('search', '') }}">
+        </div>
+        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i> بحث</button>
+    </form>
+</div>
+
+<!-- قائمة الرينج -->
+<div class="widget-block">
+    <div class="widget-head">
+        <h5><i class="fa fa-list"></i> قائمة الرينج</h5>
+    </div>
+    <div class="widget-content">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>الاسم</th>
+                    <th>السعر</th>
+                    <th>الأكواد</th>
+                    <th>المستخدمة</th>
+                    <th>الحالة</th>
+                    <th>الإجراءات</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ring in rings.items %}
+                <tr>
+                    <td>{{ ring.id }}</td>
+                    <td>
+                        <span style="color: {{ ring.color }};">
+                            <i class="fa {{ ring.icon }}"></i>
+                        </span>
+                        <strong>{{ ring.name }}</strong>
+                        {% if ring.description %}
+                        <br><small class="text-muted">{{ ring.description[:50] }}...</small>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <span class="label label-success">{{ ring.price }} {{ ring.currency }}</span>
+                    </td>
+                    <td>{{ ring.get_codes_count() }}</td>
+                    <td>{{ ring.get_used_codes_count() }}</td>
+                    <td>
+                        {% if ring.is_active %}
+                            <span class="label label-success">نشط</span>
+                        {% else %}
+                            <span class="label label-danger">غير نشط</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="btn-group action-buttons">
+                            <a href="{{ url_for('rings.edit_ring', ring_id=ring.id) }}" class="btn btn-primary btn-sm" title="تعديل">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                            <a href="{{ url_for('rings.codes_list') }}?ring={{ ring.id }}" class="btn btn-info btn-sm" title="الأكواد">
+                                <i class="fa fa-key"></i>
+                            </a>
+                            <form method="POST" action="{{ url_for('rings.toggle_ring', ring_id=ring.id) }}" style="display: inline;">
+                                <button type="submit" class="btn btn-warning btn-sm" title="{{ 'إلغاء التفعيل' if ring.is_active else 'تفعيل' }}">
+                                    <i class="fa fa-{{ 'ban' if ring.is_active else 'check' }}"></i>
+                                </button>
+                            </form>
+                            <form method="POST" action="{{ url_for('rings.delete_ring', ring_id=ring.id) }}" style="display: inline;" onsubmit="return confirm('هل أنت متأكد من حذف هذا الرينج؟');">
+                                <button type="submit" class="btn btn-danger btn-sm" title="حذف">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="7" class="text-center text-muted">
+                        <i class="fa fa-circle" style="font-size: 30px;"></i>
+                        <p>لا توجد رينج</p>
+                        <a href="{{ url_for('rings.create_ring') }}" class="btn btn-primary btn-sm">إضافة رينج جديد</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if rings.pages > 1 %}
+        <div class="text-center">
+            <ul class="pagination">
+                {% if rings.has_prev %}
+                <li><a href="{{ url_for('rings.rings_list', page=rings.prev_num) }}">&laquo;</a></li>
+                {% endif %}
+                {% for p in range(1, rings.pages + 1) %}
+                <li class="{{ 'active' if p == rings.page else '' }}">
+                    <a href="{{ url_for('rings.rings_list', page=p) }}">{{ p }}</a>
+                </li>
+                {% endfor %}
+                {% if rings.has_next %}
+                <li><a href="{{ url_for('rings.rings_list', page=rings.next_num) }}">&raquo;</a></li>
+                {% endif %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
