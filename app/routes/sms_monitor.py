@@ -1,5 +1,5 @@
 """
-sms_monitor.py  —  ABYSS SMS Monitor (FIXED V2)
+sms_monitor.py  —  SMS Monitor (FIXED V2)
 ======================================
 يجيب الرسائل من المصادر الخارجية (5 مصادر)
 ويعمل forward للأرقام المحجوزة تلقائياً.

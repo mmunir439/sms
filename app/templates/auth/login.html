@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BEPO PANEL | Login</title>
+    <title>Xenon Messaging Services | Login</title>
     <link rel="icon" type="image/png" href="/static/img/logo.png">
     <style>
         * {
@@ -64,18 +64,22 @@
             text-align: center;
             margin-bottom: 25px;
         }
-        .ghost-logo {
+        .brand-logo {
             font-size: 42px;
             font-weight: 900;
             letter-spacing: 4px;
-            color: #1a1a2e;
+            color: #6b2fa0;
             text-transform: uppercase;
             margin-bottom: 5px;
+            font-style: italic;
         }
-        .ghost-subtitle {
-            font-size: 14px;
-            letter-spacing: 8px;
-            color: #667eea;
+        .brand-logo .logo-ms {
+            color: #1a1a2e;
+        }
+        .brand-subtitle {
+            font-size: 10px;
+            letter-spacing: 3px;
+            color: #1a1a2e;
             font-weight: 700;
         }
         .login-title {
@@ -181,7 +185,7 @@
             .wrap-login {
                 padding: 30px 20px;
             }
-            .ghost-logo {
+            .brand-logo {
                 font-size: 36px;
             }
         }
@@ -219,8 +223,8 @@
                 {% endwith %}
 
                 <div class="logo-section">
-                    <div class="ghost-logo">GHOST</div>
-                    <div class="ghost-subtitle">SMS</div>
+                    <div class="brand-logo">X<span class="logo-ms">MS</span></div>
+                    <div class="brand-subtitle">XENON MESSAGING SERVICES</div>
                 </div>
 
                 <h1 class="login-title">Account Login</h1>

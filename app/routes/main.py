@@ -574,7 +574,7 @@ def agent_test_bot():
         url = f'https://api.telegram.org/bot{bot_token}/sendMessage'
         response = requests.post(url, json={
             'chat_id': chat_id,
-            'text': 'Test message from SMS Platform - Bot connection successful!'
+            'text': 'Test message from Xenon Messaging Services - Bot connection successful!'
         }, timeout=10)
 
         if response.status_code == 200:

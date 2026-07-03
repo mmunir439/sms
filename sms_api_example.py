@@ -1,7 +1,7 @@
 """
-ABYSS SMS API - Python Example Script
+Xenon Messaging Services API - Python Example Script
 =====================================
-This script demonstrates how to use the ABYSS SMS API to:
+This script demonstrates how to use the Xenon Messaging Services API to:
 1. Send SMS messages
 2. Simulate SMS received (SCR)
 3. Get SMS ranges
@@ -266,7 +266,7 @@ def get_sms_stats():
 
 if __name__ == "__main__":
     print("=" * 60)
-    print("ABYSS SMS API - Python Example")
+    print("Xenon Messaging Services API - Python Example")
     print("=" * 60)
 
     # Example 1: Get SMS ranges
@@ -304,7 +304,7 @@ if __name__ == "__main__":
                 number=first_number,
                 destination="+201234567890",
                 cli="WhatsApp",
-                message="Hello from ABYSS SMS API!"
+                message="Hello from Xenon Messaging Services API!"
             )
 
     # Example 8: Test SMS SCR (Simulate Received)

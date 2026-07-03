@@ -1630,7 +1630,7 @@ def telegram_test():
         return jsonify({'success': False, 'error': 'Bot token not configured'})
 
     chat_id = request.form.get('chat_id', '').strip()
-    message = request.form.get('message', 'Test message from FURY SMS').strip()
+    message = request.form.get('message', 'Test message from Xenon Messaging Services').strip()
 
     try:
         url = f'https://api.telegram.org/bot{bot_token}/sendMessage'
@@ -1666,7 +1666,7 @@ def telegram_send_otp():
         url = f'https://api.telegram.org/bot{bot_token}/sendMessage'
         response = requests.post(url, json={
             'chat_id': admin_chat_id,
-            'text': f'Your FURY SMS OTP Code: {code}'
+            'text': f'Your Xenon Messaging Services OTP Code: {code}'
         }, timeout=10)
 
         if response.status_code == 200:
@@ -2004,7 +2004,7 @@ def test123_send_test_message():
         url = f'https://api.telegram.org/bot{bot_token}/sendMessage'
         response = requests.post(url, json={
             'chat_id': channel_id,
-            'text': 'Test message from SMS Platform - Test123 Bot\nIf you see this, the bot is working correctly!'
+            'text': 'Test message from Xenon Messaging Services - Test123 Bot\nIf you see this, the bot is working correctly!'
         }, timeout=10)
 
         if response.status_code == 200:
